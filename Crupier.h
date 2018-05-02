@@ -1,0 +1,8 @@
+//
+// Created by Oriol on 02/05/2018.
+//
+
+#ifndef PRACTICAPROG_CRUPIER_H
+#define PRACTICAPROG_CRUPIER_H
+
+#endif //PRACTICAPROG_CRUPIER_H

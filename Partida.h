@@ -1,0 +1,8 @@
+//
+// Created by Oriol on 02/05/2018.
+//
+
+#ifndef PRACTICAPROG_PARTIDA_H
+#define PRACTICAPROG_PARTIDA_H
+
+#endif //PRACTICAPROG_PARTIDA_H
