@@ -1,0 +1,8 @@
+//
+// Created by Oriol on 08/05/2018.
+//
+
+#ifndef PRACTICAPROG_BARALLA_H
+#define PRACTICAPROG_BARALLA_H
+
+#endif //PRACTICAPROG_BARALLA_H
