@@ -1,13 +1,17 @@
 #include <stdio.h>
 #include "misc.h"
+#include "baralla.h"
 
 
 int main() {
-    printf("Hello, World!\n");
+    printf("numero de baralles:\n");
+    int numero = 0;
+    scanf("%i",numero);
 
-    Misc aux;
 
-
+    Baralla b = BARALLA_crea(numero);
+    int carta = BARALLA_demanaCarta(&b);
+    printf("%i", carta);
     /*MENUU
      *
      * Blackjack
