@@ -6,12 +6,21 @@
 int main() {
     printf("numero de baralles:\n");
     int numero = 0;
-    scanf("%i",numero);
+    scanf("%d",&numero);
 
 
     Baralla b = BARALLA_crea(numero);
     int carta = BARALLA_demanaCarta(&b);
-    printf("%i", carta);
+    printf("Carta: %d\n", carta);
+    carta = BARALLA_demanaCarta(&b);
+    printf("Carta: %d\n", carta);
+    carta = BARALLA_demanaCarta(&b);
+    printf("Carta: %d\n", carta);
+    carta = BARALLA_demanaCarta(&b);
+    printf("Carta: %d\n", carta);
+    carta = BARALLA_demanaCarta(&b);
+    printf("Carta: %d\n", carta);
+
     /*MENUU
      *
      * Blackjack
