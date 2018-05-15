@@ -9,6 +9,7 @@
 #include "Bot.h"
 #include "Crupier.h"
 #include "Player.h"
+#include "listaPDI.h"
 
 /*
  * En aquest modul es guardara l'estat de la partida, les fitxes de cada jugador, es jugara
@@ -18,7 +19,7 @@
  */
 
 typedef struct{
-    Bot bots[10];
+    listaPDI bots[10];
     Player player;
     Crupier crupier;
     Baralla baralla;
