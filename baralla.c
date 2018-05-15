@@ -12,17 +12,16 @@
 Baralla BARALLA_crea(int numero){
     Baralla b;
     b.p = PILA_crea(); //crea la pila buida
-    b.cartes = numero * 12 ;
-    int barallasimple[12] = {1,2,3,4,5,6,7,8,9,10,11,12};//definim una baralla simple
+    b.cartes = numero * 13 * 4 ;
+    int barallasimple[13] = {1,2,3,4,5,6,7,8,9,10,11,12,13};//definim una baralla simple
     int barallaordenada[b.cartes];
     int j = 0;
     while(j<b.cartes) {
-        for (int i = 0;i < 12; ++i) { // creem una array de la mida de les baralles i l'omplim de les cartes ordenades
+        for (int i = 0;i < 13; ++i) { // creem una array de la mida de les baralles i l'omplim de les cartes ordenades
             barallaordenada[j] = barallasimple[i];
             j = j +1;
         }
     }
-    printf("\n");
     int usat[b.cartes];
     for(int i = 0; i<b.cartes; ++i){
         usat[i]=0;
@@ -35,7 +34,6 @@ Baralla BARALLA_crea(int numero){
 
         if(usat[numrandom] == 0){
             PILA_push(&b.p,barallaordenada[numrandom]);
-            printf("%d - ",barallaordenada[numrandom]);
             usat[numrandom] = 1;
         }
         int trobat = 0; //busquem numeros no usats
@@ -66,6 +64,9 @@ int BARALLA_demanaCarta(Baralla *b){
     }
 }
 
-void hola(){
-    printf("Hola");
+
+void Baralla_borra(Baralla *b){
+
+    PILA_destruye(&b->p);
+
 }

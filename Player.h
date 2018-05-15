@@ -4,5 +4,9 @@
 
 #ifndef PRACTICAPROG_PLAYER_H
 #define PRACTICAPROG_PLAYER_H
+typedef struct{
 
+}Player;
+
+Player Player_crea();
 #endif //PRACTICAPROG_PLAYER_H
