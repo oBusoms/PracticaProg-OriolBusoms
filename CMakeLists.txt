@@ -3,6 +3,6 @@ project(PracticaProg)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES main.c baralla.c Bot.c Crupier.c Misc.c Partida.c pila.c Player.c listaPDI.c)
-set(HEADER_FILES baralla.h Bot.h Crupier.h Misc.h Partida.h pila.h Player.h listaPDI.h)
+set(SOURCE_FILES main.c baralla.c Bot.c Crupier.c Misc.c Partida.c pila.c Player.c)
+set(HEADER_FILES baralla.h Bot.h Crupier.h Misc.h Partida.h pila.h Player.h)
 add_executable(PracticaProg ${SOURCE_FILES})

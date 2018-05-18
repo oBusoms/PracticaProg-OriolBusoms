@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct N {
+typedef struct N{
     int elemento;
     struct N *sig;
 }Nodo;

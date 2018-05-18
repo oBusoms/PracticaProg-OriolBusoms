@@ -4,8 +4,10 @@
 
 #ifndef PRACTICAPROG_BOT_H
 #define PRACTICAPROG_BOT_H
-typedef struct{
 
+
+typedef struct{
+    int numerotonto ;
 }Bot;
 
 Bot Bot_crea();

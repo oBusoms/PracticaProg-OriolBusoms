@@ -8,11 +8,16 @@ Partida Partida_crea(int numBots){
 
     Partida p;
 
-    for(int i = 0; i < numBots; ++i){
-        p.bots[i] = Bot_crea();
+    //for(int i = 0; i < numBots; ++i){
+     /*   while(LISTAPDI_final(p.bots) == 0){
+        Bot_crea(LISTAPDI_consulta(p.bots));
+        LISTAPDI_avanza(p.bots);
+    }*/
+    for(int i = 0; i<11; ++i){
+        p.crupier.fitxes[i]=0;
+        p.player.fitxes[i]=0;
     }
-    p.crupier = Crupier_crea();
-   p.player = Player_crea();
+
     return p;
 }
 
@@ -37,4 +42,30 @@ int Partida_demanaCarta(Partida *p){
     }
 
     return carta;
+}
+
+int Partida_cartesJugador(Partida *p, int i){
+    return p->player.fitxes[i];
+}
+
+int Partida_cartesCrupier(Partida *p, int i){
+    return p->crupier.fitxes[i];
+}
+
+int Partida_DonarCartasJ(Partida *p){
+    int i = 0;
+    while(p->player.fitxes[i] != 0){
+        ++i;
+    }
+    p->player.fitxes[i] = Partida_demanaCarta(p);
+    return 1;
+}
+int Partida_DonarCartasC(Partida *p){
+    int i = 0;
+    while(p->crupier.fitxes[i] != 0){
+        ++i;
+    }
+    p->crupier.fitxes[i] = Partida_demanaCarta(p);
+    return 1;
+
 }
