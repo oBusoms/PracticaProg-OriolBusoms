@@ -43,4 +43,9 @@ int Partida_cartesJugador(Partida *p, int i);
 int Partida_cartesCrupier(Partida *p, int i);
 int Partida_DonarCartasJ(Partida *p);
 int Partida_DonarCartasC(Partida *p);
+
+int Partida_jugar(Partida *p);
+int Partida_sumadecartesJ(Partida *p);
+void Partida_imprimir_cartesJ(Partida *p);
+
 #endif //PRACTICAPROG_PARTIDA_H

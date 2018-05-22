@@ -4,7 +4,7 @@
 
 
 
-int main() {
+int main(int agv, char** argc) {
 
     /*MENUU
      *
@@ -41,8 +41,7 @@ int main() {
                 break;
             case 2:
                 if(baralla_creada == 1){
-                    donar_cartes(&partida);
-                    imprimir_cartes(&partida);
+                   int i = Partida_jugar(&partida);
                 }
                 else{
                     printf("Baralla no creada, no es pot jugar");
@@ -77,7 +76,7 @@ void mostrarMenu() {
     printf("\n 3. Mostrar estadisticas");
     printf("\n 4. Salir\n");
 }
-void donar_cartes(Partida* p){
+void donar_carta(Partida* p){
 
    int a =  Partida_DonarCartasC(p);
     a = Partida_DonarCartasC(p);
@@ -105,7 +104,7 @@ void imprimir_cartes(Partida *p){
 
     i = 0;
     printf("\nCartes Crupier\n");
-    while(i<11 && cartes_jugador[i] != 0){
+    while(i<11 && cartes_crupier[i] != 0){
         int carta = Partida_cartesCrupier(p,i);
         if(carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
             printf("[%d]", carta);
@@ -121,4 +120,6 @@ void imprimir_cartes(Partida *p){
 
 
 }
+
+
 

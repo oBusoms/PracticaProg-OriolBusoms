@@ -6,6 +6,7 @@
 #define PRACTICAPROG_BARALLA_H
 #include "Pila.h"
 #include "stdlib.h"
+#include "time.h"
 
 typedef struct{
     Pila p;
