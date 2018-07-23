@@ -4,19 +4,14 @@
 #include "Partida.h"
 
 
-Partida Partida_crea(int numBots){
+
+Partida Partida_crea(){
 
     Partida p;
-
-    //for(int i = 0; i < numBots; ++i){
-     /*   while(LISTAPDI_final(p.bots) == 0){
-        Bot_crea(LISTAPDI_consulta(p.bots));
-        LISTAPDI_avanza(p.bots);
-    }*/
-    for(int i = 0; i<11; ++i){ //revisar per l'encapsulament
-        p.crupier.fitxes[i]=0;
-        p.player.fitxes[i]=0;
-    }
+    p.numeroBots = BOT_crea(&p.bots);
+    Player_iniciatlitza(p.player);
+    Crupier_inicialitza(p.crupier);
+    p.manoMax = 0;
 
     return p;
 }
@@ -44,31 +39,30 @@ int Partida_demanaCarta(Partida *p){
     return carta;
 }
 
-int Partida_cartesJugador(Partida *p, int i){
-    return p->player.fitxes[i];
-}
-
 int Partida_cartesCrupier(Partida *p, int i){
-    return p->crupier.fitxes[i];
+    return p->crupier.cartes[i];
 }
 
 int Partida_DonarCartasJ(Partida *p){
-    int i = 0;
-    while(p->player.fitxes[i] != 0){
-        ++i;
-    }
-    p->player.fitxes[i] = Partida_demanaCarta(p);
+            Player_DonarCartes(&p->player,  Partida_demanaCarta(p));
+            actualitzaMaMax( Partida_sumadecartesJ(p), p);
     return 1;
 }
 int Partida_DonarCartasC(Partida *p){
-    int i = 0;
-    while(p->crupier.fitxes[i] != 0){
-        ++i;
-    }
-    p->crupier.fitxes[i] = Partida_demanaCarta(p);
+
+    Crupier_DonarCartes(&p->crupier, Partida_demanaCarta(p));
+    actualitzaMaMax( Partida_sumadecartesC(p), p);
     return 1;
+}
+
+int Partida_DonarCartasB(Partida *p, int i){
+
+    BOT_demanacartes(Partida_demanaCarta(p), &p->bots[i]);
+    actualitzaMaMax(BOT_sumadecartesB(p->bots[i]),p);
 
 }
+
+
 
 
 
@@ -76,10 +70,10 @@ void Partida_imprimir_cartesJ(Partida *p) {
 
     int cartes_jugador[11];
     int i = 0;
-
+    int carta = Player_cartes(p->player, i);
     printf("\nCartes jugador\n");
-    while (i < 11 && cartes_jugador[i] != 0) {
-        int carta = Partida_cartesJugador(p, i);
+    while (i < 11 && carta != 0) {
+
         if (carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
             printf("[%d]", carta);
         } else if (carta == 1) printf("[A]");
@@ -87,6 +81,7 @@ void Partida_imprimir_cartesJ(Partida *p) {
         else if (carta == 12)printf("[Q]");
         else if (carta == 13)printf("[K]");
         ++i;
+         carta = Player_cartes(p->player, i);
     }
 }
 
@@ -96,8 +91,9 @@ void Partida_imprimir_cartesC(Partida *p) {
     int i = 0;
 
     printf("\nCartes Crupier:\n");
-    while (i < 11 && cartes_jugador[i] != 0) {
-        int carta = Partida_cartesCrupier(p, i);
+    int carta = Crupier_cartes(p->crupier, i);
+    while (i < 11 && carta != 0) {
+
         if (carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
             printf("[%d]", carta);
         } else if (carta == 1) printf("[A]");
@@ -105,6 +101,7 @@ void Partida_imprimir_cartesC(Partida *p) {
         else if (carta == 12)printf("[Q]");
         else if (carta == 13)printf("[K]");
         ++i;
+        carta = Crupier_cartes(p->crupier, i);
     }
 }
 
@@ -127,7 +124,7 @@ int Partida_sumadecartesC(Partida *p){
 
 int Partida_sumadecartesJ(Partida *p){
 
-    int carta = Partida_cartesJugador(p, 0);
+    int carta = Player_cartes(p->player, 0);
     int i = 1;
     int SumaCarta = 0;
     while (i < 11 && carta!= 0) {
@@ -136,11 +133,21 @@ int Partida_sumadecartesJ(Partida *p){
             if((SumaCarta + 11) < 21) carta = 11;
         }
         SumaCarta = SumaCarta + carta;
-        carta = Partida_cartesJugador(p, i);
+        carta = Player_cartes(p->player, i);
         ++i;
     }
     return SumaCarta;
 }
+
+void Partida_borra_cartes(Partida *p){
+
+    for(int i = 0; i<11; ++i){ //revisar per l'encapsulament
+        p->crupier.cartes[i]=0;
+        p->player.cartes[i]=0;
+    }
+}
+
+
 
 int Partida_jugar(Partida *p){
     ///Juga Jugador///
@@ -170,18 +177,71 @@ int Partida_jugar(Partida *p){
     Partida_DonarCartasC(p);
     Partida_DonarCartasC(p);
     int sumaC = Partida_sumadecartesC(p);
-    if(sumaC<17){
-        while(sumaC<21) {
+    if(sumaC<=17){
+        int fitorn = 0;
+        while(sumaC<21 && fitorn == 0) {
 
             Partida_imprimir_cartesC(p);
 
-            if (sumaC < 17) {
+            if (sumaC <= 17) {
                 Partida_DonarCartasC(p);
             }
+            else fitorn = 1;
             sumaC = Partida_sumadecartesC(p) ;
         }
 
     }
     Partida_imprimir_cartesC(p);
+
+
+    /////JUGA bots/////
+        printf("\nBOTS:\n");
+        for(int i = 0; i<p->numeroBots;++i){
+
+            int aposta = BOT_apostar(&p->bots[i]);
+
+            if(aposta != -1 ){
+                printf("\n");
+                BOT_ImpNom(p->bots[i]);
+                Partida_DonarCartasB(p,i);
+                Partida_DonarCartasB(p,i);
+                ////SI el caracter es debil //////////
+                if(BOT_caracter(p->bots[i]) == 0){
+                    while(BOT_sumadecartesB(p->bots[i]) <=  BOT_CartaMax(p->bots[i])){
+                        Partida_DonarCartasB(p,i);
+                    }
+
+                   ////Si el caracter es NORMAL /////
+
+                }else if (BOT_caracter(p->bots[i]) == 1) {
+                    int passaturn = 0;
+                    while (BOT_sumadecartesB(p->bots[i]) <= BOT_CartaMax(p->bots[i]) && passaturn == 0) {
+                        if (BOT_sumadecartesB(p->bots[i]) % 2)Partida_DonarCartasB(p, i);
+                        else passaturn = 1;
+                    }
+
+                }
+                ////Si el caracter es FUERTE /////
+                }else if (BOT_caracter(p->bots[i]) == 2) {
+                int passaturn = 0;
+                    while (BOT_sumadecartesB(p->bots[i]) <= BOT_CartaMax(p->bots[i]) && passaturn == 0) {
+                        if (BOT_sumadecartesB(p->bots[i]) <= p->manoMax )Partida_DonarCartasB(p, i);
+                        else passaturn = 1;
+                }
+            }
+
+            BOT_imprimir_cartes(p->bots[i]);
+
+
+
+
+        }
+
+
+    Partida_borra_cartes(p);
     return 0;
+}
+
+void actualitzaMaMax( int ma, Partida *p){
+    if(p->manoMax < ma && ma < 22)  p->manoMax = ma;
 }

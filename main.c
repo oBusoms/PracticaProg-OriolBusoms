@@ -5,70 +5,73 @@
 
 
 int main(int agv, char** argc) {
+    if (argc < 3) {
+        printf("El numero de argumentos recibidos por el programa es incorrecto...\n");
+        printf("Saliendo de Blackjack...\n");
+    } else {
 
-    /*MENUU
-     *
-     * Blackjack
-        1. Generar pila de cartas
-        2. Jugar
-        3. Mostrar estadísticas
-        4. Salir
-    Opción: _
-     */
+        // REVISAR etiquetes RR
+        /*MENU
+         *
+         * Blackjack
+            1. Generar pila de cartas
+            2. Jugar
+            3. Mostrar estadísticas
+            4. Salir
+        Opción: _
+         */
 
-    int numero = 0;
-    int opcio = 0;
-    int numbots = 0;
-    int baralla_creada = 0;
-    Partida partida = Partida_crea(numbots);
-    while (opcio != 4) {
+        int numero = 0;
+        int opcio = 0;
+        int numbots = 0;
+        int baralla_creada = 0;
+        Partida partida = Partida_crea(numbots);
+        while (opcio != 4) {
 
-        mostrarMenu();
-        printf("\nOpcion: ");
-        scanf("%d", &opcio);
-        printf("\n");
+            mostrarMenu();
+            printf("\nOpcion: ");
+            scanf("%d", &opcio);
+            printf("\n");
 
-        switch (opcio) {
-            case 1:
-                if(baralla_creada == 1) {
+            switch (opcio) {
+                case 1:
+                    if (baralla_creada == 1) {
 
-                    Partida_borraBaralla(&partida);
-                }
-                printf("numero de baralles:\n");
-                scanf("%d",&numero);
-                baralla_creada = Partida_generarBaralla(&partida, numero);
-                printf("%d",Partida_demanaCarta(&partida));
-                break;
-            case 2:
-                if(baralla_creada == 1){
-                   int i = Partida_jugar(&partida);
-                }
-                else{
-                    printf("Baralla no creada, no es pot jugar");
-                }
+                        Partida_borraBaralla(&partida);
+                    }
+                    printf("numero de baralles:\n");
+                    scanf("%d", &numero);
+                    baralla_creada = Partida_generarBaralla(&partida, numero);
+                    printf("%d", Partida_demanaCarta(&partida));
+                    break;
+                case 2:
+                    if (baralla_creada == 1) {
+                        int i = Partida_jugar(&partida);
+                    } else {
+                        printf("Baralla no creada, no es pot jugar");
+                    }
 
 
-                break;
-            case 3:
-                if(baralla_creada == 1){
-                    printf("%d",Partida_demanaCarta(&partida) );
+                    break;
+                case 3:
+                    if (baralla_creada == 1) {
+                        printf("%d", Partida_demanaCarta(&partida));
 
-                }
-                else{
-                    printf("Baralla no creada, no es pot jugar");
-                }
+                    } else {
+                        printf("Baralla no creada, no es pot jugar");
+                    }
 
-                break;
-            case 4:
-                break;
-            default:
-                printf("\nOpcio no valida!\n");
-                break;
+                    break;
+                case 4:
+                    break;
+                default:
+                    printf("\nOpcio no valida!\n");
+                    break;
+            }
         }
+        return 0;
     }
-    return 0;
 }
-
 void mostrarMenu() {
     printf("\nBlackjack\n");
     printf("\n 1. Generar pila de cartas");
@@ -83,7 +86,7 @@ void donar_carta(Partida* p){
     a = Partida_DonarCartasJ(p);
     a = Partida_DonarCartasJ(p);
 }
-void imprimir_cartes(Partida *p){
+void imprimir_cartes(Partida * p){
 
     int cartes_crupier[11];
     int cartes_jugador[11];
@@ -91,7 +94,7 @@ void imprimir_cartes(Partida *p){
 
     printf("Cartes jugador\n");
     while(i<11 && cartes_jugador[i] != 0){
-        int carta = Partida_cartesJugador(p,i);
+        int carta = Player_cartes(p->player,i);
         if(carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
             printf("[%d]", carta);
         }
@@ -105,7 +108,7 @@ void imprimir_cartes(Partida *p){
     i = 0;
     printf("\nCartes Crupier\n");
     while(i<11 && cartes_crupier[i] != 0){
-        int carta = Partida_cartesCrupier(p,i);
+        int carta = Partida_cartesCrupier(&p,i);
         if(carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
             printf("[%d]", carta);
         }
