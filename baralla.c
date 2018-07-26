@@ -32,8 +32,8 @@ Baralla BARALLA_crea(int numero){
         int numrandom = rand() % (b.cartes);
         swap(&barallaordenada[i],&barallaordenada[numrandom]);
     }
-    for(int i = 0; i<b.cartes;++i){
-        printf("%d ",barallaordenada[i]);
+   for(int i = 0; i<b.cartes;++i){
+        //printf("%d ",barallaordenada[i]);
         PILA_push(&b.p,barallaordenada[i]);
     }
     return b;

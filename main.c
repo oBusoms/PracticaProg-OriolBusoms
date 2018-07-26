@@ -6,8 +6,7 @@
 
 int main(int agv, char** argc) {
     if (argc < 3) {
-        printf("El numero de argumentos recibidos por el programa es incorrecto...\n");
-        printf("Saliendo de Blackjack...\n");
+        printf("Error en fitxers\n");
     } else {
 
         // REVISAR etiquetes RR
@@ -25,7 +24,7 @@ int main(int agv, char** argc) {
         int opcio = 0;
         int numbots = 0;
         int baralla_creada = 0;
-        Partida partida = Partida_crea(numbots);
+        Partida partida = Partida_crea(argc);
         while (opcio != 4) {
 
             mostrarMenu();
@@ -42,11 +41,14 @@ int main(int agv, char** argc) {
                     printf("numero de baralles:\n");
                     scanf("%d", &numero);
                     baralla_creada = Partida_generarBaralla(&partida, numero);
-                    printf("%d", Partida_demanaCarta(&partida));
+                    //printf("%d", Partida_demanaCarta(&partida));
                     break;
                 case 2:
                     if (baralla_creada == 1) {
-                        int i = Partida_jugar(&partida);
+                        if(Player_nFitxes(partida.player)>=20) {
+                            int i = Partida_jugar(&partida);
+                        }
+                        else printf("El Jugador no te proutes fitxes");
                     } else {
                         printf("Baralla no creada, no es pot jugar");
                     }

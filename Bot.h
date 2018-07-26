@@ -25,13 +25,12 @@ int BOT_crea(Bot *b);
 int BOT_CartaMax(Bot b);
 int BOT_apostar(Bot* b);
 int BOT_demanacartes(int carta, Bot *b);
-void BOT_jugar(int cartes, Baralla b);
 void fitxerbot();
-void BOT_estadistiques();
-int BOT_consultaCartas(Bot b);
 int BOT_consultaFitxes(Bot b);
 void BOT_ImpNom(Bot b);
 int BOT_caracter(Bot b);
 int BOT_sumadecartesB(Bot b);
-void BOT_imprimir_cartes(Bot b);
+void BOT_imprimir_cartes(Bot b, int aposta);
+int BOT_guanya(Bot b, int sumaCrupier);
+void BOT_guanyaAposta(Bot* b, int fitxes);
 #endif //PRACTICAPROG_BOT_H

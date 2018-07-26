@@ -58,11 +58,29 @@ int BOT_crea(Bot *b) { //b es el punter de l'array de bots
  
  
         fclose(fi);
+       // ordenarBots(b,numeroBots);
     }
     return numeroBots;
 
 
     
+}
+
+
+void ordenarBots(Bot *b, int numeroBots){
+
+        int i,j;
+    i = j = 0;
+    for (i = 0; i < numeroBots - 1; i++){
+        for (j = i + 1; j < numeroBots; j++){
+            if (strcmp(b[i].nom, (b[j].nom))){
+                /* Intercambiar el valor de alumno[i] y alumno[j] */
+                 Bot aux = b[i];
+                b[i] = b[j];
+                b[j] = aux;
+            }
+        }
+    }
 }
 
 int BOT_apostar(Bot * b) {
@@ -151,12 +169,15 @@ int BOT_CartaMax(Bot b){
     return b.cartaMax;
 }
 
-void BOT_imprimir_cartes(Bot b) {
+void BOT_imprimir_cartes(Bot b, int aposta) {
 
-    int cartes_jugador[11];
     int i = 0;
     printf("\n");
     int carta = b.cartes[0];
+    printf(b.nom);
+    printf("                         %d",aposta);
+    printf("fch\n");
+    //printf("\n");
     while (i < 11 && carta != 0) {
 
         if (carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
@@ -168,4 +189,23 @@ void BOT_imprimir_cartes(Bot b) {
         ++i;
         carta = b.cartes[i];
     }
+    printf("\n----------------------------------------");
+}
+int BOT_consultaFitxes(Bot b){
+    return b.fitxes;
+}
+
+int BOT_guanya(Bot b, int sumaCrupier){
+
+    int sumaBot = BOT_sumadecartesB(b);
+    if(sumaCrupier > 21 && sumaBot<21) return 1;
+    else if(sumaBot > 21) return 0;
+    else if( sumaBot>sumaCrupier) return 1;
+}
+
+
+void BOT_guanyaAposta(Bot* b, int fitxes){
+
+    if(b->cartes[2] == 0 && BOT_sumadecartesB(*b) == 21)  b->fitxes += 3*fitxes;
+   else b->fitxes += 2*fitxes;
 }

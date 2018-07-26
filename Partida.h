@@ -34,7 +34,7 @@ typedef struct{
 
 
 int Partida_generarBaralla(Partida *p, int numBaralla); // genera una baralla i retorna un int/bolea que val 1 si esta creada i 0 si no
-Partida Partida_crea();
+Partida Partida_crea(char* array[3]);
 void Partida_borraBaralla(Partida *p);
 int Partida_demanaCarta(Partida *p);
 int Partida_cartesJugador(Partida *p, int i);
