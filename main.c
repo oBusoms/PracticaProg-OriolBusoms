@@ -56,12 +56,9 @@ int main(int agv, char** argc) {
 
                     break;
                 case 3:
-                    if (baralla_creada == 1) {
-                        printf("%d", Partida_demanaCarta(&partida));
+                    Partida_Imprimir_estadistiques(partida);
 
-                    } else {
-                        printf("Baralla no creada, no es pot jugar");
-                    }
+
 
                     break;
                 case 4:
@@ -81,6 +78,7 @@ void mostrarMenu() {
     printf("\n 3. Mostrar estadisticas");
     printf("\n 4. Salir\n");
 }
+/*
 void donar_carta(Partida* p){
 
    int a =  Partida_DonarCartasC(p);
@@ -126,5 +124,5 @@ void imprimir_cartes(Partida * p){
 
 }
 
-
+*/
 

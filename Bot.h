@@ -33,4 +33,6 @@ int BOT_sumadecartesB(Bot b);
 void BOT_imprimir_cartes(Bot b, int aposta);
 int BOT_guanya(Bot b, int sumaCrupier);
 void BOT_guanyaAposta(Bot* b, int fitxes);
+int BOT_cartes(Bot b, int i);
+void BOT_imprimir_cartes_final(Bot b, int aposta, int guanya);
 #endif //PRACTICAPROG_BOT_H

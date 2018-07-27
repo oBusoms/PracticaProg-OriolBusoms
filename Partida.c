@@ -110,6 +110,38 @@ void Partida_imprimir_cartesC(Partida *p) {
     printf("\n----------------------------------------");
 }
 
+void Partida_imprimir_cartesC_Final(Partida *p){
+
+    int cartes_jugador[11];
+    int i = 0;
+
+    printf("\nCrupier:\n");
+    int carta = Crupier_cartes(p->crupier, i);
+    while (i < 11 && carta != 0) {
+
+        if (carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
+            printf("[%d]", carta);
+        } else if (carta == 1) printf("[A]");
+        else if (carta == 11)printf("[J]");
+        else if (carta == 12)printf("[Q]");
+        else if (carta == 13)printf("[K]");
+        ++i;
+        carta = Crupier_cartes(p->crupier, i);
+
+    }
+
+        printf("                            (");
+    int sumaDecartess= Crupier_SumaDeCartes(p->crupier);
+        printf("%d",sumaDecartess);
+        if(Crupier_cartes(p->crupier,2) == 0 && (Crupier_cartes(p->crupier,0)+ Crupier_cartes(p->crupier,1) == 21)){
+            printf("B)");
+        }
+        else printf(")");
+
+    printf("\n----------------------------------------");
+
+}
+
 int Partida_sumadecartesC(Partida *p){
 
     int carta = Partida_cartesCrupier(p, 0);
@@ -205,7 +237,7 @@ int Partida_jugar(Partida *p){
     for(int i = 0; i<numeroBots;++i)botsPlantats[i]= 0;
     for(int i = 0; i<numeroBots; ++i) botsPassats[i] = 0;
     while(passat == 0 && Crupierpassat == 0 && plantat ==0) {
-        if(PLAYER_SumaDeCartes(p->player)<21) {
+        if(PLAYER_SumaDeCartes(p->player)<=21) {
             int opcio = imprimirMenu(&p->player);
 
             if (opcio == 1)Partida_DonarCartasJ(p);
@@ -289,35 +321,52 @@ int Partida_jugar(Partida *p){
         Player_imprimir_cartes(p->player, apuestaJ);
     }
     /////Fi de partida//////
+    printf("\n\n\n\n\n");
+    ///Estadistiques///
+    int sumaC = Partida_sumadecartesC(p);
+    if(sumaC  == 17) Crupier_Estadistiques(&p->crupier,0);
+    else if(sumaC == 18) Crupier_Estadistiques(&p->crupier,1);
+    else if(sumaC == 19) Crupier_Estadistiques(&p->crupier,2);
+    else if(sumaC == 20) Crupier_Estadistiques(&p->crupier,3);
+    else if(sumaC == 21 && Crupier_cartes(p->crupier,2) == 0) Crupier_Estadistiques(&p->crupier,4);
+    else if(sumaC == 21 && Crupier_cartes(p->crupier,2) != 0) Crupier_Estadistiques(&p->crupier,5);
+    else Crupier_Estadistiques(&p->crupier,6);
+    Crupier_Estadistiques(&p->crupier,7);
 
-    ///Bots///
+
+
+
+
+    Partida_imprimir_cartesC_Final(p);
 
     for(int i = 0; i<numeroBots; ++i){
        if( BOT_guanya(p->bots[i], Crupier_SumaDeCartes(p->crupier))){
            BOT_guanyaAposta(&p->bots[i],apostaBot[i]);
-           printf("\n El bot ");
-           printf(p->bots[i].nom);
-           printf(" guanya\n");
+           BOT_imprimir_cartes_final(p->bots[i],apostaBot[i],1);
        }
+        else BOT_imprimir_cartes_final(p->bots[i],apostaBot[i],0);
     }
 
+    Player_imprimir_cartes_final(p->player, apuestaJ, Player_guanya(p->player, Crupier_SumaDeCartes(p->crupier)));
     if(Player_guanya(p->player, Crupier_SumaDeCartes(p->crupier))){
         Player_guanyafitxes(p->player, apuestaJ);
-        printf("Jugador guanya");
+        Player_EstadistiquesActualitza(&p->player, 1,0,0);
     }
+    else  Player_EstadistiquesActualitza(&p->player, 0,1,0);
     Partida_borra_cartes(p);
     return 0;
 }
 
 void actualitzaMaMax( int ma, Partida *p){
-    if(p->manoMax < ma && ma < 22)  p->manoMax = ma;
+   int manoMax = Partida_manoMax(p);
+    if(manoMax < ma && ma < 22) Partida_actualitzaManoMax(p,ma);
 }
 
 int imprimirMenu(Player* p){
 
     printf("\n");
     ///Encapsulacio
-    //printf(Player_getNom(&p));
+    char nom = Player_getNom(p);
     printf((p->nom));
 
     printf(", elije:\n");
@@ -336,3 +385,29 @@ int Partida_numeroBots(Partida *p){
     return p->numeroBots;
 }
 
+int Partida_manoMax(Partida *p){
+    return p->manoMax;
+}
+void Partida_actualitzaManoMax(Partida *p, int x){
+    p->manoMax = x;
+}
+
+
+void Partida_Imprimir_estadistiques(Partida p){
+
+    printf("Blackjack Estadistiques:  \n");
+    printf("    1. Estadistiques Crupier\n");
+    printf("    2. Estadistiques Jugador\n");
+    printf("    3. Volver\n");
+    printf("Opcion: ");
+    int opcio;
+    scanf("%d", &opcio);
+    if(opcio==1) Crupier_EstadistiquesCrupier(p.crupier);
+    if(opcio==2) Player_ImprimirEstadistiques(p.player);
+
+}
+
+void Partida_EstadistiquesCrupier(Partida p){
+
+
+}

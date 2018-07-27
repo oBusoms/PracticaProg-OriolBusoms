@@ -127,3 +127,72 @@ void Player_guanyafitxes(Player p, int fitxes){
    if(p.cartes[2]==0) p.fitxes += 3*fitxes;
     else p.fitxes += 3*fitxes;
 }
+
+
+void Player_imprimir_cartes_final(Player p, int aposta, int guanya) {
+
+    int i = 0;
+    printf("\n");
+    int carta = p.cartes[0];
+    printf(p.nom);
+    printf("                      %d",aposta);
+    printf(" fch\n");
+    //printf("\n");
+    while (i < 11 && carta != 0) {
+
+        if (carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
+            printf("[%d]", carta);
+        } else if (carta == 1) printf("[A]");
+        else if (carta == 11)printf("[J]");
+        else if (carta == 12)printf("[Q]");
+        else if (carta == 13)printf("[K]");
+        ++i;
+        carta = p.cartes[i];
+    }
+
+    printf("                            (");
+    int sumadcartes = PLAYER_SumaDeCartes(p);
+    printf("%d",sumadcartes);
+    if(Player_cartes(p,2) == 0 && (Player_cartes(p,0)+ Player_cartes(p,1) == 21)){
+        printf("B)");
+    }
+    else printf(")\n");
+    if(guanya){
+        printf("** Gana (+");
+        if(sumadcartes == 21 && Player_cartes(p,2) == 0){
+            printf("%d",3*aposta);
+            printf(" fch) **");
+        }
+        else{
+            printf("%d",2*aposta);
+            printf(" fch) **");
+        }
+    }else {
+        printf("** Pierde (-");
+        printf("%d",aposta);
+        printf(" fch) **");
+    }
+    printf("\n----------------------------------------");
+}
+
+
+void Player_EstadistiquesActualitza(Player* p, int guanya, int perd, int empata){
+
+    if(guanya == 1) p->guanyades += 1;
+    if(perd == 1) p->perdudes += 1;
+    if(empata == 1) p->empatades += 1;
+}
+
+void Player_ImprimirEstadistiques(Player p){
+
+    printf("Blackjack - Estadisticas del jugador\n\n");
+    printf("Nombre: ");
+    printf(p.nom);
+    printf("\n");
+    printf("Partidas ganadas: %d", p.guanyades);
+    printf("\n");
+    printf("Partidas empatadas: %d", p.empatades);
+    printf("\n");
+    printf("Partidas perdidas: %d", p.perdudes);
+    printf("\n\n");
+}

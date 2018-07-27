@@ -31,4 +31,7 @@ int Player_Aposta(Player *p);
 int Player_SumaFitxes(Player *p, int fitxes);
 int Player_guanya(Player p, int sumaCrupier);
 void Player_guanyafitxes(Player p, int fitxes);
+void Player_imprimir_cartes_final(Player p, int aposta, int guanya);
+void Player_EstadistiquesActualitza(Player* p, int guanya, int perd, int empata);
+void Player_ImprimirEstadistiques(Player p);
 #endif //PRACTICAPROG_PLAYER_H
