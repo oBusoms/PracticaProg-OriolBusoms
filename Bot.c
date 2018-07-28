@@ -4,7 +4,6 @@
 #include "Bot.h"
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
 int BOT_crea(Bot *b) { //b es el punter de l'array de bots
 

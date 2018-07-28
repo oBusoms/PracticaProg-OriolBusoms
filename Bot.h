@@ -5,7 +5,6 @@
 #ifndef PRACTICAPROG_BOT_H
 #define PRACTICAPROG_BOT_H
 
-#include "baralla.h"
 
 typedef struct{
     char nom[50];
@@ -21,11 +20,9 @@ typedef struct{
 
 
 int BOT_crea(Bot *b);
-
 int BOT_CartaMax(Bot b);
 int BOT_apostar(Bot* b);
 int BOT_demanacartes(int carta, Bot *b);
-void fitxerbot();
 int BOT_consultaFitxes(Bot b);
 void BOT_ImpNom(Bot b);
 int BOT_caracter(Bot b);

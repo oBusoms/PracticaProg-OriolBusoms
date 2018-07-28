@@ -46,4 +46,8 @@ int Partida_jugar(Partida *p);
 int Partida_sumadecartesJ(Partida *p);
 void Partida_imprimir_cartesJ(Partida *p);
 void Partida_Imprimir_estadistiques(Partida p);
+Player Partida_returnPlayer(Partida *p);
+Crupier Partida_returnCrupier(Partida *p);
+Bot Partida_returnBot(Partida *p);
+Baralla Partida_returnBaralla(Partida *p);
 #endif //PRACTICAPROG_PARTIDA_H

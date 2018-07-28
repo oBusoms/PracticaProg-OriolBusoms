@@ -2,8 +2,6 @@
 // Created by Oriol on 02/05/2018.
 //
 #include "Partida.h"
-#include "Player.h"
-#include "Bot.h"
 
 
 Partida Partida_crea(char* array[3]){
@@ -42,7 +40,8 @@ int Partida_demanaCarta(Partida *p){
 }
 
 int Partida_cartesCrupier(Partida *p, int i){
-    return p->crupier.cartes[i];
+    Crupier c = Partida_returnCrupier(&p);
+    return c.cartes[i];
 }
 
 int Partida_DonarCartasJ(Partida *p){
@@ -184,6 +183,8 @@ void Partida_borra_cartes(Partida *p){
 
 
     }
+    p->player.ultimaCarta=0;
+    p->crupier.ultimaCarta = 0;
     for(int j = 0; j<Partida_numeroBots(p); ++j){
         for(int q = 0; q<11;++q){
             p->bots[j].cartes[q] = 0;
@@ -402,12 +403,22 @@ void Partida_Imprimir_estadistiques(Partida p){
     printf("Opcion: ");
     int opcio;
     scanf("%d", &opcio);
-    if(opcio==1) Crupier_EstadistiquesCrupier(p.crupier);
-    if(opcio==2) Player_ImprimirEstadistiques(p.player);
+  //  if(opcio==1) Crupier_EstadistiquesCrupier(p.crupier);
+    if(opcio==1) Crupier_EstadistiquesCrupier(Partida_returnCrupier(&p));
+   // if(opcio==2) Player_ImprimirEstadistiques(p.player);
+    if(opcio==2) Player_ImprimirEstadistiques(Partida_returnPlayer(&p));
 
 }
 
-void Partida_EstadistiquesCrupier(Partida p){
-
-
+Player Partida_returnPlayer(Partida *p){
+    return p->player;
+}
+Crupier Partida_returnCrupier(Partida *p){
+    return p->crupier;
+}
+Bot Partida_returnBot(Partida *p){
+    return p->bots[100];
+}
+Baralla Partida_returnBaralla(Partida *p){
+    return p->baralla;
 }

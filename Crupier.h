@@ -8,7 +8,6 @@
 #include <stdio.h>
 typedef struct{
     int cartes[11];
-    int punts;
     int ultimaCarta;
     int ESTcartes[7];
     int partidesJugades;

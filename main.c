@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "Partida.h"
-#include "misc.h"
 
 
 
@@ -78,51 +77,3 @@ void mostrarMenu() {
     printf("\n 3. Mostrar estadisticas");
     printf("\n 4. Salir\n");
 }
-/*
-void donar_carta(Partida* p){
-
-   int a =  Partida_DonarCartasC(p);
-    a = Partida_DonarCartasC(p);
-    a = Partida_DonarCartasJ(p);
-    a = Partida_DonarCartasJ(p);
-}
-void imprimir_cartes(Partida * p){
-
-    int cartes_crupier[11];
-    int cartes_jugador[11];
-    int i = 0;
-
-    printf("Cartes jugador\n");
-    while(i<11 && cartes_jugador[i] != 0){
-        int carta = Player_cartes(p->player,i);
-        if(carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
-            printf("[%d]", carta);
-        }
-        else if(carta == 1) printf("[A]");
-        else if(carta == 11)printf("[J]");
-        else if(carta == 12)printf("[Q]");
-        else if(carta == 13)printf("[K]");
-        ++i;
-    }
-
-    i = 0;
-    printf("\nCartes Crupier\n");
-    while(i<11 && cartes_crupier[i] != 0){
-        int carta = Partida_cartesCrupier(&p,i);
-        if(carta != 1 && carta != 11 && carta != 12 && carta != 13 && carta != 0) {
-            printf("[%d]", carta);
-        }
-        else if(carta == 1) printf("[A]");
-        else if(carta == 11)printf("[J]");
-        else if(carta == 12)printf("[Q]");
-        else if(carta == 13)printf("[K]");
-
-      ++i;
-    }
-
-
-
-}
-
-*/
-
