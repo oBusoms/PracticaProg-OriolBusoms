@@ -43,7 +43,7 @@ int PLAYER_SumaDeCartes(Player p){
     while (i < 11 && carta!= 0) {
         if(carta == 11 || carta == 12 || carta == 13) carta = 10;
         if(carta == 1){
-            if((SumaCarta + 11) < 21) carta = 11;
+            if((SumaCarta + 11) <= 21) carta = 11;
         }
         SumaCarta = SumaCarta + carta;
         carta = Player_cartes(p, i);
@@ -118,14 +118,19 @@ int Player_SumaFitxes(Player *p, int fitxes){
 int Player_guanya(Player p, int sumaCrupier) {
 
     int sumap = PLAYER_SumaDeCartes(p);
-    if (sumaCrupier > 21 && sumap < 21) return 1;
-    else if (sumap > 21) return 0;
-    else if (sumap > sumaCrupier) return 1;
+    if (sumap > 21) return 0; //Si el jugador es passa, perd
+    else if (sumaCrupier > 21 && sumap <= 21) return 1; //Si el crupier es passa, i jo no, guanyo
+    else if (sumap > sumaCrupier) return 1; //Si cap dels dos es passa i jo tinc mes, guanyo jo
+    else if(sumap < sumaCrupier) return 0; //si cap dels dos es passa i el crupiet te mes, perdo
+    else if (sumap == sumaCrupier) return 2;
 }
 
-void Player_guanyafitxes(Player p, int fitxes){
-   if(p.cartes[2]==0) p.fitxes += 3*fitxes;
-    else p.fitxes += 3*fitxes;
+void Player_guanyafitxes(Player p, int fitxes, int guanya){
+  if(guanya == 1) {
+      if (p.cartes[2] == 0) p.fitxes += 3 * fitxes;
+      else p.fitxes += 2 * fitxes;
+  }
+    else p.fitxes += fitxes;
 }
 
 
@@ -195,4 +200,22 @@ void Player_ImprimirEstadistiques(Player p){
     printf("\n");
     printf("Partidas perdidas: %d", p.perdudes);
     printf("\n\n");
+}
+
+
+void Player_guardaDedes(Player p, char nomFitxer[50]){
+
+    FILE *fitxer;
+    //fitxer = fopen(nomFitxer, "w");
+    fitxer = fopen("C:\\Users\\Oriol\\CLionProjects\\PracticaProg\\jugador.txt", "w");
+    if (fitxer != NULL) {
+        fprintf(fitxer, "%s\n", p.nom);
+        fprintf(fitxer,"%d\n", p.fitxes);
+        fprintf(fitxer,"%d\n", p.guanyades);
+        fprintf(fitxer,"%d\n", p.empatades);
+        fprintf(fitxer,"%d\n", p.perdudes);
+
+        fclose(fitxer);
+    }else printf("Error en la escritura del jugador");
+
 }

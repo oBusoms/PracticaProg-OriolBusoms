@@ -7,7 +7,8 @@
 Partida Partida_crea(char* array[3]){
 
     Partida p;
-    p.numeroBots = BOT_crea(&p.bots);
+  //  p.numeroBots = BOT_crea(&p.bots, array[2]);
+    p.numeroBots = BOT_crea(&p.bots, array[2]);
     p.player = Player_crea(array[1]);
     Player_iniciatlitza(p.player);
     Crupier_inicialitza(p.crupier);
@@ -39,8 +40,8 @@ int Partida_demanaCarta(Partida *p){
     return carta;
 }
 
-int Partida_cartesCrupier(Partida *p, int i){
-    Crupier c = Partida_returnCrupier(&p);
+int Partida_cartesCrupier(Partida p, int i){
+    Crupier c = Partida_returnCrupier(p);
     return c.cartes[i];
 }
 
@@ -52,7 +53,7 @@ int Partida_DonarCartasJ(Partida *p){
 int Partida_DonarCartasC(Partida *p){
 
     Crupier_DonarCartes(&p->crupier, Partida_demanaCarta(p));
-    actualitzaMaMax( Partida_sumadecartesC(p), p);
+    actualitzaMaMax( Partida_sumadecartesC(*p), p);
     return 1;
 }
 
@@ -85,7 +86,7 @@ void Partida_imprimir_cartesJ(Partida *p) {
          carta = Player_cartes(p->player, i);
     }
 
-    printf("\n----------------------------------------");
+    printf("\n----------------------------------------\n");
 }
 
 void Partida_imprimir_cartesC(Partida *p) {
@@ -141,7 +142,7 @@ void Partida_imprimir_cartesC_Final(Partida *p){
 
 }
 
-int Partida_sumadecartesC(Partida *p){
+int Partida_sumadecartesC(Partida p){
 
     int carta = Partida_cartesCrupier(p, 0);
     int i = 1;
@@ -149,7 +150,7 @@ int Partida_sumadecartesC(Partida *p){
     while (i < 11 && carta!= 0) {
         if(carta == 11 || carta == 12 || carta == 13) carta = 10;
         if(carta == 1){
-            if((SumaCarta + 11) < 21) carta = 11;
+            if((SumaCarta + 11) <= 21) carta = 11;
         }
         SumaCarta = SumaCarta + carta;
         carta = Partida_cartesCrupier(p, i);
@@ -250,7 +251,7 @@ int Partida_jugar(Partida *p){
             passat = 1;
             printf("\n T'has passat\n");
         }
-        //JUGUEN BOTS///
+        /////////JUGUEN BOTS/////////////
         for (int i = 0; i <numeroBots; ++i) {
             if (BOT_consultaFitxes(p->bots[i]) >= 20 && botsPassats[i] == 0 && botsPlantats[i] == 0) {
                 if (BOT_caracter(p->bots[i]) == 0) {
@@ -291,7 +292,7 @@ int Partida_jugar(Partida *p){
 
         /////////JUGA CRUPIER ////////////////
         int crupierPlantat = 0;
-        int sumaC = Partida_sumadecartesC(p);
+        int sumaC = Partida_sumadecartesC(*p);
         if(sumaC<=17){
 
             Partida_DonarCartasC(p);
@@ -324,7 +325,7 @@ int Partida_jugar(Partida *p){
     /////Fi de partida//////
     printf("\n\n\n\n\n");
     ///Estadistiques///
-    int sumaC = Partida_sumadecartesC(p);
+    int sumaC = Partida_sumadecartesC(*p);
     if(sumaC  == 17) Crupier_Estadistiques(&p->crupier,0);
     else if(sumaC == 18) Crupier_Estadistiques(&p->crupier,1);
     else if(sumaC == 19) Crupier_Estadistiques(&p->crupier,2);
@@ -349,11 +350,16 @@ int Partida_jugar(Partida *p){
     }
 
     Player_imprimir_cartes_final(p->player, apuestaJ, Player_guanya(p->player, Crupier_SumaDeCartes(p->crupier)));
-    if(Player_guanya(p->player, Crupier_SumaDeCartes(p->crupier))){
-        Player_guanyafitxes(p->player, apuestaJ);
+    if(Player_guanya(p->player, Crupier_SumaDeCartes(p->crupier)) == 1){
+        Player_guanyafitxes(p->player, apuestaJ, 1);
         Player_EstadistiquesActualitza(&p->player, 1,0,0);
     }
+    else if(Player_guanya(p->player, Crupier_SumaDeCartes(p->crupier)) == 2) {
+        Player_EstadistiquesActualitza(&p->player, 0,0,1);
+        Player_guanyafitxes(p->player, apuestaJ, 0);
+    }
     else  Player_EstadistiquesActualitza(&p->player, 0,1,0);
+    Player_ImprimirEstadistiques(p->player);
     Partida_borra_cartes(p);
     return 0;
 }
@@ -366,7 +372,6 @@ void actualitzaMaMax( int ma, Partida *p){
 int imprimirMenu(Player* p){
 
     printf("\n");
-    ///Encapsulacio
     char nom = Player_getNom(p);
     printf((p->nom));
 
@@ -404,7 +409,7 @@ void Partida_Imprimir_estadistiques(Partida p){
     int opcio;
     scanf("%d", &opcio);
   //  if(opcio==1) Crupier_EstadistiquesCrupier(p.crupier);
-    if(opcio==1) Crupier_EstadistiquesCrupier(Partida_returnCrupier(&p));
+    if(opcio==1) Crupier_EstadistiquesCrupier(Partida_returnCrupier(p));
    // if(opcio==2) Player_ImprimirEstadistiques(p.player);
     if(opcio==2) Player_ImprimirEstadistiques(Partida_returnPlayer(&p));
 
@@ -413,8 +418,8 @@ void Partida_Imprimir_estadistiques(Partida p){
 Player Partida_returnPlayer(Partida *p){
     return p->player;
 }
-Crupier Partida_returnCrupier(Partida *p){
-    return p->crupier;
+Crupier Partida_returnCrupier(Partida p){
+    return p.crupier;
 }
 Bot Partida_returnBot(Partida *p){
     return p->bots[100];

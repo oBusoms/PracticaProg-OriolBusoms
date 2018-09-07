@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int BOT_crea(Bot *b) { //b es el punter de l'array de bots
+int BOT_crea(Bot *b,char nomFitxer[50]) { //b es el punter de l'array de bots
 
     char nom[50];
     int fitxes = 0;
@@ -16,7 +16,8 @@ int BOT_crea(Bot *b) { //b es el punter de l'array de bots
 
     char aux[5];
     int n;
-    FILE * fi=fopen("C:\\Users\\Oriol\\CLionProjects\\PracticaProg\\botsq.txt","r");
+   FILE * fi=fopen("C:\\Users\\Oriol\\CLionProjects\\PracticaProg\\botsq.txt","r");
+    //FILE * fi=fopen(nomFitxer,"r");
     if (fi==NULL){
         printf("ERROR.");
     }else{
@@ -155,13 +156,32 @@ int BOT_caracter(Bot b){
 }
 
 int BOT_sumadecartesB(Bot b){
-    int i = 0;
+    /*int i = 0;
     int suma = 0;
     while(b.cartes[i] != 0){
         suma += b.cartes[i];
         ++i;
     }
     return suma;
+
+*/
+
+    int carta = BOT_Cartes(b, 0);
+    int i = 1;
+    int SumaCarta = 0;
+    while (i < 11 && carta!= 0) {
+        if(carta == 11 || carta == 12 || carta == 13) carta = 10;
+        if(carta == 1){
+            if((SumaCarta + 11) <= 21) carta = 11;
+        }
+        SumaCarta = SumaCarta + carta;
+        carta = BOT_Cartes(b, i);
+        ++i;
+    }
+    return SumaCarta;
+}
+int BOT_Cartes(Bot b, int i){
+    return b.cartes[i];
 }
 
 int BOT_CartaMax(Bot b){
@@ -174,6 +194,9 @@ void BOT_imprimir_cartes(Bot b, int aposta) {
     printf("\n");
     int carta = b.cartes[0];
     printf(b.nom);
+    if(BOT_caracter(b) == 0) printf("(D)");
+    else if(BOT_caracter(b) == 1) printf("(N)");
+    else if(BOT_caracter(b) == 2) printf("(F)");
     printf("                         %d",aposta);
     printf("fch\n");
     //printf("\n");

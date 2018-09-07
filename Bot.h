@@ -19,7 +19,7 @@ typedef struct{
 }Bot;
 
 
-int BOT_crea(Bot *b);
+int BOT_crea(Bot *b, char nomFitxer[50]);
 int BOT_CartaMax(Bot b);
 int BOT_apostar(Bot* b);
 int BOT_demanacartes(int carta, Bot *b);
@@ -32,4 +32,5 @@ int BOT_guanya(Bot b, int sumaCrupier);
 void BOT_guanyaAposta(Bot* b, int fitxes);
 int BOT_cartes(Bot b, int i);
 void BOT_imprimir_cartes_final(Bot b, int aposta, int guanya);
+int BOT_Cartes(Bot b, int i);
 #endif //PRACTICAPROG_BOT_H
